@@ -41,7 +41,7 @@ def ReadTree(name, num_tree):
 def one_split(tr,teX,ind, node, cost, mask):
     penalty=0
     feature_idx=tr['split_feature'][node]
-    N=np.sum(mask[ind,feature_idx])
+    N=np.sum(ind,dtype=int) #np.sum(mask[ind,feature_idx])
     penalty += N * cost[feature_idx]
     mask[ind,feature_idx]=False
     threshold=tr['threshold'][node]
@@ -88,7 +88,7 @@ def quan(line,num_bits,max_r,min_r):
     elif min_r>min(weights):
         min_r = min(weights)
     '''
-    step = (max_r - min_r) / (2 ** num_bits - 1)
+    step = 2.0 * max(abs(max_r), abs(min_r)) / (2 ** num_bits)
     #print('quantization step set to', step)
     for i in range(len(weights)):
         weights[i]=str(np.round(weights[i]/step)*step)
